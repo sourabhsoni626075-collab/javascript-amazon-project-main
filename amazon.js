@@ -2,8 +2,8 @@
 let html = '';
 
 products.forEach(
-    (products) => {
-        html += `<div class="product-container">
+  (products) => {
+    html += `<div class="product-container">
           <div class="product-image-container">
             <img class="product-image"
               src="${products.image}">
@@ -47,11 +47,44 @@ products.forEach(
             Added
           </div>
 
-          <button class="add-to-cart-button button-primary">
+          <button class="add-to-cart-button button-primary add-to-cart-eventlistner" data-product-name='${products.name}' data-product-id='${products.id}'>
             Add to Cart
           </button>
         </div>`
-    }
+  }
 )
 document.querySelector('.js-html-insert').
-    innerHTML = html;
+  innerHTML = html;
+
+
+let cartSymbol = 0;
+
+const butttonList = document.querySelectorAll('.add-to-cart-eventlistner')
+butttonList.forEach((selectedButton) => {
+  selectedButton.addEventListener('click', () => {
+    const productId = selectedButton.dataset.productId
+    const productname = selectedButton.dataset.productName
+    let value = 0;
+    cart.forEach((cartItem) => {
+      if (productId === cartItem.Id) {
+        cartItem.quantity += 1
+        value += 1
+        cartSymbol += 1
+      }
+    })
+    if (value === 0) {
+      cart.push(
+        {
+          name: productname,
+          quantity: 1,
+          Id: productId
+        }
+      )
+      cartSymbol += 1
+    } document.querySelector('.cartSymbol').innerHTML = cartSymbol;
+    console.log(cart);
+  }
+  )
+}
+)
+
