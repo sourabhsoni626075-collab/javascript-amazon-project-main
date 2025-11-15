@@ -1,5 +1,19 @@
 const products = [
   {
+    id: "e43638ce-6aa0-4b85-b27f-e1daecb678c6",
+    image: "images/products/pulser.jpg",
+    name: "Bajaj Pulsar Ns 125 Ug Motorcycle/Motorbike - Fiery Orange - Ex-Showroom",
+    rating: {
+      stars: 4.5,
+      count: 11
+    },
+    priceCents: 116400,
+    keywords: [
+      "bike",
+      "sportsbike",
+      "motercycle"
+    ]
+  }, {
     id: "e43638ce-6aa0-4b85-b27f-e1d07eb678c6",
     image: "images/products/athletic-cotton-socks-6-pairs.jpg",
     name: "Black and Gray Athletic Cotton Socks - 6 Pairs",
