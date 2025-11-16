@@ -1,9 +1,7 @@
-
 let html = '';
 
-products.forEach(
-  ({ id, name, image, rating: { stars, count }, priceCents }) => {
-    html += `<div class="product-container">
+products.forEach(({ id, name, image, rating: { stars, count }, priceCents }) => {
+  html += `<div class="product-container">
           <div class="product-image-container">
             <img class="product-image"
               src="${image}">
@@ -42,51 +40,53 @@ products.forEach(
 
           <div class="product-spacer"></div>
 
-          <div class="added-to-cart">
-            <img src="images/icons/checkmark.png">
-            Added
-          </div>
-
+          <div class="added-to-cart addedselector${id}">
+              
+          </div> 
+          
           <button class="add-to-cart-button button-primary add-to-cart-eventlistner" data-product-name='${name}' data-product-id='${id}'>
             Add to Cart
           </button>
         </div>`
-  }
-)
-document.querySelector('.js-html-insert').
-  innerHTML = html;
+});
 
+document.querySelector('.js-html-insert').innerHTML = html;
 
 let cartSymbol = 0;
+let timerID = 0;
 
-const butttonList = document.querySelectorAll('.add-to-cart-eventlistner')
+const butttonList = document.querySelectorAll('.add-to-cart-eventlistner');
 
 butttonList.forEach((selectedButton) => {
   selectedButton.addEventListener('click', () => {
-    const { productId, productname } = selectedButton.dataset
-    const quantitySelector = document.querySelector(`.js-quantity-selector-${productId}`)
-    const quantitySelected = Number(quantitySelector.value)
+    const { productId, productname } = selectedButton.dataset;
+    const quantitySelector = document.querySelector(`.js-quantity-selector-${productId}`);
+    const quantitySelected = Number(quantitySelector.value);
+    const addedSymbol = document.querySelector(`.addedselector${productId}`);
+    
+    addedSymbol.innerHTML = '<img src="images/icons/checkmark.png">  Added';
+    clearTimeout(timerID)
+    timerID = setTimeout(() => {
+      addedSymbol.innerHTML = "";
+    }, 2000);
+
     let value = 0;
     cart.forEach(({ Id, quantity }) => {
       if (productId === Id) {
-        quantity += quantitySelected
-        value += 1
-        cartSymbol += quantitySelected
+        quantity += quantitySelected;
+        value += 1;
+        cartSymbol += quantitySelected;
       }
-    })
+    });
     if (value === 0) {
-      cart.push(
-        {
-          name: productname,
-          quantity: quantitySelected,
-          Id: productId
-        }
-      )
-      cartSymbol += quantitySelected
-    } document.querySelector('.cartSymbol').innerHTML = cartSymbol;
+      cart.push({
+        name: productname,
+        quantity: quantitySelected,
+        Id: productId
+      });
+      cartSymbol += quantitySelected;
+    }
+    document.querySelector('.cartSymbol').innerHTML = cartSymbol;
     console.log(cart);
-  }
-  )
-}
-)
-
+  });
+});

@@ -1,6 +1,6 @@
 const products = [
   {
-    id: "e43638ce-6aa0-4b85-b27f-e1daecb678c6",
+    id: "e43638ce-6aa0-4b85-b27f-e1adcda678c6",
     image: "images/products/pulser.jpg",
     name: "Bajaj Pulsar Ns 125 Ug Motorcycle/Motorbike - Fiery Orange - Ex-Showroom",
     rating: {
