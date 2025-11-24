@@ -1,5 +1,7 @@
-let html = '';
+import { products } from '../data/products.js';
+import { addToCart } from '../data/cart.js';
 
+let html = '';
 products.forEach(({ id, name, image, rating: { stars, count }, priceCents }) => {
   html += `<div class="product-container">
           <div class="product-image-container">
@@ -59,34 +61,22 @@ const butttonList = document.querySelectorAll('.add-to-cart-eventlistner');
 
 butttonList.forEach((selectedButton) => {
   selectedButton.addEventListener('click', () => {
-    const { productId, productname } = selectedButton.dataset;
+    const { productId, productName } = selectedButton.dataset;
     const quantitySelector = document.querySelector(`.js-quantity-selector-${productId}`);
     const quantitySelected = Number(quantitySelector.value);
     const addedSymbol = document.querySelector(`.addedselector${productId}`);
-    
+
+    cartSymbol += addToCart(productName, productId, cartSymbol, quantitySelected)
+
+    document.querySelector('.cartSymbol').innerHTML = cartSymbol;
     addedSymbol.innerHTML = '<img src="images/icons/checkmark.png">  Added';
     clearTimeout(timerID)
     timerID = setTimeout(() => {
       addedSymbol.innerHTML = "";
     }, 2000);
 
-    let value = 0;
-    cart.forEach(({ Id, quantity }) => {
-      if (productId === Id) {
-        quantity += quantitySelected;
-        value += 1;
-        cartSymbol += quantitySelected;
-      }
-    });
-    if (value === 0) {
-      cart.push({
-        name: productname,
-        quantity: quantitySelected,
-        Id: productId
-      });
-      cartSymbol += quantitySelected;
-    }
-    document.querySelector('.cartSymbol').innerHTML = cartSymbol;
-    console.log(cart);
+
+    console.log(productName)
+
   });
 });
