@@ -46,7 +46,7 @@ products.forEach(({ id, name, image, rating: { stars, count }, priceCents }) => 
               
           </div> 
           
-          <button class="add-to-cart-button button-primary add-to-cart-eventlistner" data-product-name='${name}' data-product-id='${id}'>
+          <button class="add-to-cart-button button-primary add-to-cart-eventlistner" data-product-name='${name}' data-product-id='${id}' data-product-price='${(priceCents / 100).toFixed(2)}'>
             Add to Cart
           </button>
         </div>`
@@ -61,12 +61,12 @@ const butttonList = document.querySelectorAll('.add-to-cart-eventlistner');
 
 butttonList.forEach((selectedButton) => {
   selectedButton.addEventListener('click', () => {
-    const { productId, productName } = selectedButton.dataset;
+    const { productId, productName, productPrice } = selectedButton.dataset;
     const quantitySelector = document.querySelector(`.js-quantity-selector-${productId}`);
     const quantitySelected = Number(quantitySelector.value);
     const addedSymbol = document.querySelector(`.addedselector${productId}`);
 
-    cartSymbol += addToCart(productName, productId, cartSymbol, quantitySelected)
+    cartSymbol += addToCart(productName, productId, cartSymbol, quantitySelected, productPrice)
 
     document.querySelector('.cartSymbol').innerHTML = cartSymbol;
     addedSymbol.innerHTML = '<img src="images/icons/checkmark.png">  Added';
