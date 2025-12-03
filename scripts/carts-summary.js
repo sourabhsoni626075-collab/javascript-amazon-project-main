@@ -1,18 +1,16 @@
 import { cart } from '../data/cart.js'
 import { products } from '../data/products.js';
 import { formatCurrency } from './utils/money.js';
-
+console.log(cart)
 
 let cartSummaryHTML = '';
-let deleteButtonValue = 0;
 
 paymentSummery()
 
 cart.forEach(({ CID, quantity }) => {
   products.forEach(({ id, name, image, priceCents }) => {
     if (CID === id) {
-      cartSummaryHTML += `<div class="cart-item-container
-      js-cart-item-container${deleteButtonValue}">
+      cartSummaryHTML += `<div class="cart-item-container">
       <div class="delivery-date">
          Delivery date: Tuesday, June 21
      </div>
@@ -30,12 +28,12 @@ cart.forEach(({ CID, quantity }) => {
          </div>
          <div class="product-quantity">
              <span>
-             Quantity: <span class="quantity-label js-quantity-label${id}">${quantity}</span>
+             Quantity: <span class="quantity-label">${quantity}</span>
              </span>
-             <span class="update-quantity-link link-primary js-update-button"data-cart-index='${deleteButtonValue}'>
+             <span class="update-quantity-link link-primary">
              Update
              </span>
-             <span class="delete-quantity-link link-primary js-delete-button" data-cart-index='${deleteButtonValue}'>
+             <span class="delete-quantity-link link-primary">
              Delete
              </span>
          </div>
@@ -87,8 +85,7 @@ cart.forEach(({ CID, quantity }) => {
          </div>
      </div>
      </div>`
-
-      deleteButtonValue += 1
+      console.log(id, name, image, priceCents)
 
     }
   })
@@ -130,38 +127,6 @@ function paymentSummery() {
         </button>
       </div>`}
 
+
 document.querySelector('.js-order-summary').
   innerHTML = cartSummaryHTML
-
-deleteButtonWorking()
-function deleteButtonWorking() {
-  const quantityDeleteButton = document.querySelectorAll('.js-delete-button');
-  quantityDeleteButton.forEach((buttton) => {
-    let index = Number(buttton.dataset.cartIndex)
-
-    buttton.addEventListener('click', () => {
-      const id = cart[index].CID
-      let ammount = cart[index]
-      console.log(id)
-      if (!(ammount.quantity === 0)) {
-        ammount.quantity = ammount.quantity - 1
-      }
-      document.querySelector(`.js-quantity-label${id}`).innerHTML = ammount.quantity;
-    })
-
-  })
-}
-updateButtonWorking()
-function updateButtonWorking() {
-  const updateButtons = document.querySelectorAll('.js-update-button')
-  updateButtons.forEach((button) => {
-    button.addEventListener('click', () => {
-      let index = Number(button.dataset.cartIndex)
-      let ammount = cart[index].quantity
-      if (ammount === 0) {
-        document.querySelector(`.js-cart-item-container${index}`).remove();
-      }
-
-    })
-  })
-}

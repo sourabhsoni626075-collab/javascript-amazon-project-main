@@ -63,12 +63,12 @@ const butttonList = document.querySelectorAll('.add-to-cart-eventlistner');
 
 butttonList.forEach((selectedButton) => {
   selectedButton.addEventListener('click', () => {
-    const { productId, productName} = selectedButton.dataset;
+    const { productId, productName, productPrice } = selectedButton.dataset;
     const quantitySelector = document.querySelector(`.js-quantity-selector-${productId}`);
     const quantitySelected = Number(quantitySelector.value);
     const addedSymbol = document.querySelector(`.addedselector${productId}`);
 
-    cartSymbol += addToCart(productId, cartSymbol, quantitySelected)
+    cartSymbol += addToCart(productName, productId, cartSymbol, quantitySelected, productPrice)
 
     document.querySelector('.cartSymbol').innerHTML = cartSymbol;
     addedSymbol.innerHTML = '<img src="images/icons/checkmark.png">  Added';
