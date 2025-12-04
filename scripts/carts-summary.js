@@ -1,4 +1,5 @@
 import { cart } from '../data/cart.js'
+import { removeFromcart } from '../data/cart.js'
 import { products } from '../data/products.js';
 import { formatCurrency } from './utils/money.js';
 console.log(cart)
@@ -6,11 +7,10 @@ console.log(cart)
 let cartSummaryHTML = '';
 
 paymentSummery()
-
-cart.forEach(({ CID, quantity }) => {
+cart.forEach(({ ID, quantity }) => {
   products.forEach(({ id, name, image, priceCents }) => {
-    if (CID === id) {
-      cartSummaryHTML += `<div class="cart-item-container">
+    if (ID === id) {
+      cartSummaryHTML += `<div class="cart-item-container js-cart-item-container${id}">
       <div class="delivery-date">
          Delivery date: Tuesday, June 21
      </div>
@@ -33,7 +33,8 @@ cart.forEach(({ CID, quantity }) => {
              <span class="update-quantity-link link-primary">
              Update
              </span>
-             <span class="delete-quantity-link link-primary">
+             <span class="delete-quantity-link link-primary 
+             js-delete-quantity-link" data-product-id='${ID}'>
              Delete
              </span>
          </div>
@@ -46,7 +47,7 @@ cart.forEach(({ CID, quantity }) => {
          <div class="delivery-option">
              <input type="radio" checked
              class="delivery-option-input"
-             name="delivery-option-${CID}">
+             name="delivery-option-${ID}">
              <div>
              <div class="delivery-option-date">
                  Tuesday, June 21
@@ -59,7 +60,7 @@ cart.forEach(({ CID, quantity }) => {
          <div class="delivery-option">
              <input type="radio"
              class="delivery-option-input"
-             name="delivery-option-${CID}">
+             name="delivery-option-${ID}">
              <div>
              <div class="delivery-option-date">
                  Wednesday, June 15
@@ -72,7 +73,7 @@ cart.forEach(({ CID, quantity }) => {
          <div class="delivery-option">
              <input type="radio"
              class="delivery-option-input"
-             name="delivery-option-${CID}">
+             name="delivery-option-${ID}">
              <div>
              <div class="delivery-option-date">
                  Monday, June 13
@@ -90,7 +91,6 @@ cart.forEach(({ CID, quantity }) => {
     }
   })
 })
-
 function paymentSummery() {
   cartSummaryHTML += `      <div class="payment-summary">
         <div class="payment-summary-title">
@@ -126,7 +126,14 @@ function paymentSummery() {
           Place your order
         </button>
       </div>`}
-
-
 document.querySelector('.js-order-summary').
   innerHTML = cartSummaryHTML
+
+document.querySelectorAll('.js-delete-quantity-link')
+  .forEach((dltButton) => {
+    dltButton.addEventListener('click', () => {
+      const productId = dltButton.dataset.productId;
+      removeFromcart(productId)
+      document.querySelector(`.js-cart-item-container${productId}`).remove()
+    })
+  })
