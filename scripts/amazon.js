@@ -1,6 +1,8 @@
 import { products } from '../data/products.js';
 import { addToCart } from '../data/cart.js';
 import { formatCurrency } from './utils/money.js';
+import { cart } from '../data/cart.js';
+
 
 
 let html = '';
@@ -68,7 +70,7 @@ butttonList.forEach((selectedButton) => {
     const quantitySelected = Number(quantitySelector.value);
     const addedSymbol = document.querySelector(`.addedselector${productId}`);
 
-    cartSymbol += addToCart(productName, productId, cartSymbol, quantitySelected, productPrice)
+    cartSymbol += addToCart(productId, cartSymbol, quantitySelected)
 
     document.querySelector('.cartSymbol').innerHTML = cartSymbol;
     addedSymbol.innerHTML = '<img src="images/icons/checkmark.png">  Added';
@@ -78,7 +80,8 @@ butttonList.forEach((selectedButton) => {
     }, 2000);
 
 
-    console.log(productName)
+    console.log(cart)
+
 
   });
 });

@@ -1,33 +1,31 @@
-export let cart = [
-    {
-        quantity: 2,
-        ID: 'e43638ce-6aa0-4b85-b27f-e1d07eb678c6'
-    },
-    {
-        quantity: 1,
-        ID: '15b6fc6f-327a-4ec4-896f-486349e85a3d',
-    }
-]
+export let cart = JSON.parse(localStorage.getItem('cart'))
+if (!cart) {
+    cart = []
+}
 export function addToCart(productId, cartSymbol, quantitySelected) {
     let value = 0;
-    cart.forEach(({ Id, quantity }) => {
-        if (productId === Id) {
-            quantity += quantitySelected;
+    cart.forEach((product) => {               /* cart.forEach(({ Id, quantity }) => { */
+        if (productId === product.ID) {              /* if (productId === Id) { */
+            console.log(quantitySelected)
+            product.quantity += quantitySelected;        /* quantity = quantitySelected; The issue is here */
             value += 1;
-            cartSymbol = quantitySelected;
+            cartSymbol = quantitySelected;  /* The variable quantity inside the callback is a new, local variable that holds a      
+                                                copy  of the value of the original object's quantity property. */
         }
+        console.log(productId)
+        console.log(product.ID)
     });
     if (value === 0) {
         cart.push({
             quantity: quantitySelected,
-            Id: productId
+            ID: productId
         });
         cartSymbol = quantitySelected;
     }
-    console.log(cartSymbol)
+    saveToLocalStorage()
     return cartSymbol;
+
 }
-console.log(cart)
 export function removeFromcart(productId) {
     const newCart = [];
 
@@ -37,5 +35,9 @@ export function removeFromcart(productId) {
         }
     })
     cart = newCart
+    saveToLocalStorage()
     console.log(cart)
+}
+function saveToLocalStorage() {
+    localStorage.setItem('cart', JSON.stringify(cart))
 }
