@@ -38,7 +38,6 @@ export function removeFromcart(productId) {
     cart = newCart;
     saveToLocalStorage();
     document.querySelector('.js-items-quantity').innerHTML = `${calculateCartQuantity()} items`
-    document.querySelector('.payment-summary-row').innerHTML = `Items (${calculateCartQuantity()}):`
 }
 
 function saveToLocalStorage() {

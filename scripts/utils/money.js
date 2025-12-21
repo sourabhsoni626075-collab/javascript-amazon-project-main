@@ -20,3 +20,15 @@ export function estimatedTax() {
 export function orderTotal() {
     return estimatedTax() + totalBeforeTax()
 }
+export function dynamicQuantityValue(productId) {
+
+    for (let i = 0; i < cart.length; i++) {
+        const product = cart[i];
+
+        if (productId === product.ID) {
+            return product.quantity
+
+        }
+    }
+
+}

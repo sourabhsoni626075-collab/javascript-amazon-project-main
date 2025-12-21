@@ -1,7 +1,7 @@
 import { cart, removeFromcart, calculateCartQuantity, addToCart } from '../data/cart.js';
 import { products } from '../data/products.js';
 import { paymentSummery } from './Payment-summary.js';
-import { formatCurrency, ordersValue } from './utils/money.js';
+import { formatCurrency, dynamicQuantityValue } from './utils/money.js';
 
 
 let cartSummaryHTML = '';
@@ -99,8 +99,6 @@ function dltBtnEventListner() {
       removeFromcart(productId);
       document.querySelector(`.js-cart-item-container${productId}`).remove();
       document.querySelector('.js-payment-summary').innerHTML = paymentSummery()
-      ordersValue()
-
 
     });
   });
@@ -109,20 +107,20 @@ function updtBtnEventListner() {
   const updateButton = document.querySelectorAll('.js-update-quantity-link')
   updateButton.forEach((updtButton) => {
     const productId = updtButton.dataset.productId;
-    const btn = updtButton.dataset;
+    const btnSwitch = updtButton.dataset;
 
     updtButton.addEventListener('click', () => {
       const inputElement = document.querySelector(`.input-generator${productId}`)
-      if (btn.state === 'off') {
+      if (btnSwitch.state === 'off') {
         inputElement.innerHTML = `<input class="quantity-input js-quantity-input${productId}" 
         type="number" >`
         updtButton.innerHTML = 'Save';
-        btn.state = 'on'
+        btnSwitch.state = 'on'
       }
       else {
         updtButton.innerHTML = 'Update';
         savebtnEventListner(productId)
-        btn.state = 'off'
+        btnSwitch.state = 'off'
         inputElement.innerHTML = ''
 
 
@@ -134,6 +132,8 @@ function savebtnEventListner(productId) {
   const input = document.querySelector(`.js-quantity-input${productId}`)
   const value = Number(input.value);
   addToCart(productId, value)
-
+  document.querySelector('.js-payment-summary').innerHTML = paymentSummery()
+  document.querySelector('.js-items-quantity').innerHTML = `${calculateCartQuantity()} items`
+  document.querySelector(`.js-quantity-label${productId}`).innerHTML = `${dynamicQuantityValue(productId)}`
 }
 
