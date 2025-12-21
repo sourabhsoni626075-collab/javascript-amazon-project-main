@@ -1,43 +1,66 @@
-export let cart = JSON.parse(localStorage.getItem('cart'))
+export let cart = JSON.parse(localStorage.getItem('cart'));
+
 if (!cart) {
-    cart = []
+    cart = [];
 }
-export function addToCart(productId, cartSymbol, quantitySelected) {
+
+export function addToCart(productId, quantitySelected, price) {
     let value = 0;
-    cart.forEach((product) => {               /* cart.forEach(({ Id, quantity }) => { */
-        if (productId === product.ID) {              /* if (productId === Id) { */
-            console.log(quantitySelected)
-            product.quantity += quantitySelected;        /* quantity = quantitySelected; The issue is here */
+
+    cart.forEach((product) => {
+        if (productId === product.ID) {
+            product.quantity += quantitySelected;
             value += 1;
-            cartSymbol = quantitySelected;  /* The variable quantity inside the callback is a new, local variable that holds a      
-                                                copy  of the value of the original object's quantity property. */
+
         }
-        console.log(productId)
-        console.log(product.ID)
     });
+
     if (value === 0) {
         cart.push({
             quantity: quantitySelected,
-            ID: productId
+            ID: productId,
+            productPrice: price
         });
-        cartSymbol = quantitySelected;
     }
-    saveToLocalStorage()
-    return cartSymbol;
 
+    saveToLocalStorage();
 }
+
 export function removeFromcart(productId) {
     const newCart = [];
 
     cart.forEach((cartItem) => {
         if (!(cartItem.ID === productId)) {
-            newCart.push(cartItem)
+            newCart.push(cartItem);
         }
-    })
-    cart = newCart
-    saveToLocalStorage()
-    console.log(cart)
+    });
+
+    cart = newCart;
+    saveToLocalStorage();
+    document.querySelector('.js-items-quantity').innerHTML = `${calculateCartQuantity()} items`
+    document.querySelector('.payment-summary-row').innerHTML = `Items (${calculateCartQuantity()}):`
 }
+
 function saveToLocalStorage() {
-    localStorage.setItem('cart', JSON.stringify(cart))
+    localStorage.setItem('cart', JSON.stringify(cart));
+}
+
+export function calculateCartQuantity() {
+    let calculateCartQuantity = 0;
+
+    cart.forEach((item) => {
+        calculateCartQuantity += item.quantity;
+    });
+
+    return calculateCartQuantity;
+}
+
+export function totalItemPrice() {
+    let totalItemPrice = 0;
+
+    cart.forEach((item) => {
+        totalItemPrice += item.price;
+    });
+
+    return totalItemPrice;
 }

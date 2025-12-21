@@ -209,3 +209,10 @@
   margin-top: 11px;
   margin-bottom: 15px;
 }
+
+.quantity-input {
+  width: 15%;
+  border-radius: 5px;
+  border-color: rgb(255, 111, 0);
+  color: rgb(6, 24, 113);
+}
