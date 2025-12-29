@@ -1,4 +1,6 @@
 import { cart } from '../../data/cart.js';
+import { deliveryOptions } from '../../data/deliveryOption.js';
+
 
 export function formatCurrency(priceCents) {
     return (priceCents / 100).toFixed(2)
@@ -12,7 +14,7 @@ export function ordersValue() {
 
 }
 export function totalBeforeTax() {
-    return 499 + ordersValue()
+    return 499 + ordersValue() + calculateShippingfee()
 }
 export function estimatedTax() {
     return totalBeforeTax() * 10 / 100
@@ -31,4 +33,17 @@ export function dynamicQuantityValue(productId) {
         }
     }
 
+}
+export function calculateShippingfee() {
+    let ShippingFee = 0;
+    cart.forEach((product) => {
+        for (let i = 0; i < deliveryOptions.length; i++) {
+            const deliveryOption = deliveryOptions[i];
+            if (deliveryOption.id === product.deliveryID) {
+                ShippingFee += deliveryOption.priceCents
+            }
+
+        }
+    })
+    return ShippingFee;
 }

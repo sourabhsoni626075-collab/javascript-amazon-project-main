@@ -1,5 +1,5 @@
-import { calculateCartQuantity } from '../data/cart.js';
-import { formatCurrency, ordersValue, totalBeforeTax, estimatedTax, orderTotal } from './utils/money.js';
+import { calculateCartQuantity, } from '../data/cart.js';
+import { formatCurrency, ordersValue, totalBeforeTax, estimatedTax, orderTotal, calculateShippingfee } from './utils/money.js';
 
 export function paymentSummery() {
   let cartSummaryHTML = `<div class="payment-summary ">
@@ -14,7 +14,7 @@ export function paymentSummery() {
 
     <div class="payment-summary-row">
       <div>Shipping &amp; handling:</div>
-      <div class="payment-summary-money">$4.99</div>
+      <div class="payment-summary-money">$${formatCurrency(calculateShippingfee())}</div>
     </div>
 
     <div class="payment-summary-row subtotal-row">
