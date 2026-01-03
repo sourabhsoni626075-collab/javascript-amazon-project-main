@@ -14,7 +14,7 @@ export function ordersValue() {
 
 }
 export function totalBeforeTax() {
-    return 499 + ordersValue() + calculateShippingfee()
+    return ordersValue() + calculateShippingfee()
 }
 export function estimatedTax() {
     return totalBeforeTax() * 10 / 100
