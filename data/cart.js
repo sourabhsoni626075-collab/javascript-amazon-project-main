@@ -6,14 +6,15 @@ loadFromStorage()
 export function loadFromStorage() {
     cart = JSON.parse(localStorage.getItem('cart'));
 
-    if (!cart) {
-        cart = [{
+    if (cart.length === 0) {
+        cart = [/* {
             ID: "0d7f9afa-2efe-4fd9-b0fd-ba5663e0a524",
             productPrice: "2250",
             quantity: 6,
             deliveryID: '1'
-        }];
+        } */];
     }
+
 }
 
 
@@ -43,6 +44,21 @@ export function addToCart(productId, quantitySelected, price) {
     saveToLocalStorage();
 }
 
+export function changeInCart(productId, quantitySelected) {
+    cart.forEach((product) => {
+        if (productId === product.ID) {
+            if ((product.quantity + quantitySelected) > 0) {
+                product.quantity += quantitySelected;
+            }
+            else {
+                product.quantity = 1;
+            }
+        }
+    });
+
+    saveToLocalStorage();
+}
+
 export function removeFromcart(productId) {
     const newCart = [];
 
@@ -54,7 +70,6 @@ export function removeFromcart(productId) {
 
     cart = newCart;
     saveToLocalStorage();
-    document.querySelector('.js-items-quantity').innerHTML = `${calculateCartQuantity()} items`
 }
 
 export function saveToLocalStorage() {

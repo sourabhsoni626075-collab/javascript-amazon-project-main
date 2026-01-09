@@ -1,6 +1,7 @@
 import { products } from '../data/products.js';
-import { addToCart, cart, calculateCartQuantity } from '../data/cart.js';
+import { addToCart, calculateCartQuantity, cart, loadFromStorage } from '../data/cart.js';
 import { formatCurrency, } from './utils/money.js';
+import { renderCartItem } from './checkout/carts-summary.js';
 
 let html = '';
 
@@ -60,6 +61,7 @@ const butttonList = document.querySelectorAll('.add-to-cart-eventlistner');
 
 butttonList.forEach((selectedButton) => {
   selectedButton.addEventListener('click', () => {
+    loadFromStorage()
     const { productId, productName, productPrice } = selectedButton.dataset;
     const quantitySelector = document.querySelector(`.js-quantity-selector-${productId}`);
     const quantitySelected = Number(quantitySelector.value);
@@ -70,9 +72,14 @@ butttonList.forEach((selectedButton) => {
     document.querySelector('.cartSymbol').innerHTML = calculateCartQuantity();
 
     addedSymbol.innerHTML = '<img src="images/icons/checkmark.png">  Added';
-    clearTimeout(timerID);
-    timerID = setTimeout(() => {
+
+    console.log(cart)
+
+    clearTimeout(productId);
+    productId = setTimeout(() => {
       addedSymbol.innerHTML = '';
     }, 2000);
+
+
   });
 });

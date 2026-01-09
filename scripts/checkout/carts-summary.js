@@ -1,12 +1,10 @@
 import dayjs from 'https://unpkg.com/supersimpledev@8.5.0/dayjs/esm/index.js'
-import { cart, removeFromcart, calculateCartQuantity, addToCart, saveToLocalStorage } from '../data/cart.js';
-import { products } from '../data/products.js';
+import { cart, removeFromcart, calculateCartQuantity, addToCart, saveToLocalStorage, changeInCart } from '../../data/cart.js';
+import { products } from '../../data/products.js';
 import { paymentSummery } from './Payment-summary.js';
-import { formatCurrency, dynamicQuantityValue } from './utils/money.js';
-import { deliveryOptions } from '../data/deliveryOption.js';
+import { formatCurrency, dynamicQuantityValue } from '../utils/money.js';
+import { deliveryOptions } from '../../data/deliveryOption.js';
 
-
-renderCartItem()
 
 
 function deliveryDate(deliveryID) {
@@ -23,15 +21,11 @@ function deliveryDate(deliveryID) {
 
 export function renderCartItem() {
   let cartSummaryHTML = '';
-  cartSummaryHTML += `<div class="js-payment-summary">${paymentSummery()} </div>`;
-
-
-
 
   cart.forEach(({ ID, quantity, deliveryID }) => {
     products.forEach(({ id, name, image, priceCents }) => {
       if (ID === id) {
-        cartSummaryHTML += `<div class="cart-item-container js-cart-item-container${id}">
+        cartSummaryHTML += `<div class="cart-item-container js-cart-item-container js-cart-item-container${id}">
         <div class="delivery-date">
           Delivery date: ${deliveryDate(deliveryID)}
         </div>
@@ -46,7 +40,8 @@ export function renderCartItem() {
             <div class="product-price">
               $${formatCurrency(priceCents)}
             </div>
-            <div class="product-quantity">
+            <div class="product-quantity
+            js-product-quantity-${ID}">
               <span>
                 Quantity: <span class="quantity-label js-quantity-label${ID}">${quantity}</span>
               </span>
@@ -54,7 +49,10 @@ export function renderCartItem() {
                 Update
               </span>
                <span class="input-generator${ID}"></span>
-              <span class="delete-quantity-link link-primary js-delete-quantity-link" data-product-id='${ID}'>
+              <span class="delete-quantity-link
+               js-delete-link-${ID} 
+               link-primary js-delete-quantity-link"
+                data-product-id='${ID}'>
                 Delete
               </span>
             </div>
@@ -72,6 +70,8 @@ export function renderCartItem() {
     });
   });
   document.querySelector('.js-order-summary').innerHTML = cartSummaryHTML;
+  document.querySelector('.js-payment-summary').innerHTML = paymentSummery()
+
   document.querySelector('.js-items-quantity').innerHTML = `${calculateCartQuantity()} items`
   dltBtnEventListner()
   updtBtnEventListner()
@@ -122,6 +122,8 @@ function dltBtnEventListner() {
       removeFromcart(productId);
       document.querySelector(`.js-cart-item-container${productId}`).remove();
       document.querySelector('.js-payment-summary').innerHTML = paymentSummery()
+      document.querySelector('.js-items-quantity').innerHTML = `${calculateCartQuantity()} items`
+      console.log(cart)
 
     });
   });
@@ -154,7 +156,7 @@ function updtBtnEventListner() {
 function savebtnEventListner(productId) {
   const input = document.querySelector(`.js-quantity-input${productId}`)
   const value = Number(input.value);
-  addToCart(productId, value)
+  changeInCart(productId, value)
   document.querySelector('.js-payment-summary').innerHTML = paymentSummery()
   document.querySelector('.js-items-quantity').innerHTML = `${calculateCartQuantity()} items`
   document.querySelector(`.js-quantity-label${productId}`).innerHTML = `${dynamicQuantityValue(productId)}`

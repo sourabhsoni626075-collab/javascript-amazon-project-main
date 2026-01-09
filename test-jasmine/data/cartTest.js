@@ -16,7 +16,6 @@ describe('test suits: addToCart', () => {
         expect(cart[0].quantity).toEqual(2)
     })
     it('to check existing product into Cart', () => {
-
         spyOn(localStorage, 'setItem');
 
         spyOn(localStorage, 'getItem').and.callFake(() => {
