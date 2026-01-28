@@ -1,12 +1,12 @@
 
-export let cart;
+export let cart = [];
 
 loadFromStorage()
 
 export function loadFromStorage() {
     cart = JSON.parse(localStorage.getItem('cart'));
 
-    if (cart.length === 0) {
+    if (!cart) {
         cart = [/* {
             ID: "0d7f9afa-2efe-4fd9-b0fd-ba5663e0a524",
             productPrice: "2250",
