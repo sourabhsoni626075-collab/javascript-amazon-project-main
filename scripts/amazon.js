@@ -5,7 +5,7 @@ import { renderCartItem } from './checkout/carts-summary.js';
 
 let html = '';
 
-products.forEach(({ id, name, image, rating: { stars, count }, priceCents }) => {
+products.forEach(({ id, name, image, rating: { stars, count }, priceCents }, products) => {
   html += `<div class="product-container">
     <div class="product-image-container">
       <img class="product-image" src="${image}">
@@ -23,7 +23,7 @@ products.forEach(({ id, name, image, rating: { stars, count }, priceCents }) => 
     </div>
 
     <div class="product-price">
-      $${formatCurrency(priceCents)}
+      $${formatCurrency(products.priceCents)}
     </div>
 
     <div class="product-quantity-container">

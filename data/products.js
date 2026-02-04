@@ -1,3 +1,42 @@
+class product {
+
+  id;
+  image;
+  name;
+  rating;
+  priceCents;
+
+  constructor(productDetails) {
+
+    this.id = productDetails.id
+    this.image = productDetails.image
+    this.name = productDetails.name
+    this.rating = productDetails.rating
+    this.priceCents = productDetails.priceCents
+
+  }
+
+}
+const productDetails1 = {
+  id: "e43638ce-6aa0-4b85-b27f-e1adcda678c6",
+  image: "images/products/pulser.jpg",
+  name: "Bajaj Pulsar Ns 125 Ug Motorcycle/Motorbike - Fiery Orange - Ex-Showroom",
+  rating: {
+    stars: 4.5,
+    count: 11
+  },
+  priceCents: 116400,
+  keywords: [
+    "bike",
+    "sportsbike",
+    "motercycle"
+  ]
+};
+const product1 = new product(productDetails1)
+const product2 = new product(productDetails1)
+
+console.log(product)
+
 export const products = [
   {
     id: "e43638ce-6aa0-4b85-b27f-e1adcda678c6",
@@ -671,4 +710,7 @@ export const products = [
       "mens"
     ]
   }
-];
+].map((productDetails) => {
+  return new product(productDetails)
+})
+console.log(products)
