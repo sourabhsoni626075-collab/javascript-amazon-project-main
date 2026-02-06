@@ -23,7 +23,7 @@ products.forEach(({ id, name, image, rating: { stars, count }, priceCents }, pro
     </div>
 
     <div class="product-price">
-      $${formatCurrency(products.priceCents)}
+      $${formatCurrency(priceCents)}
     </div>
 
     <div class="product-quantity-container">

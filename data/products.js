@@ -33,7 +33,6 @@ const productDetails1 = {
   ]
 };
 const product1 = new product(productDetails1)
-const product2 = new product(productDetails1)
 
 console.log(product)
 
