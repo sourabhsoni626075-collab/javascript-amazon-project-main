@@ -1,7 +1,7 @@
 function Cart(localStorageKey) {
     const cart = {
         cartItems: [],
-
+  
 
         loadFromStorage() {
             this.cartItems = JSON.parse(localStorage.getItem(localStorageKey));
