@@ -17,9 +17,6 @@ export function loadFromStorage() {
 
 }
 
-
-
-
 export function addToCart(productId, quantitySelected, price) {
     let value = 0;
 
@@ -94,6 +91,18 @@ export function totalItemPrice() {
     });
 
     return totalItemPrice;
+}
+
+export function loadCart(fun) {
+    const xhr = new XMLHttpRequest();
+
+    xhr.addEventListener('load', () => {
+        console.log(xhr.response);
+        fun();
+    });
+
+    xhr.open('GET', 'https://supersimplebackend.dev/cart');
+    xhr.send();
 }
 
 

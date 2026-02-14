@@ -1,12 +1,13 @@
-import { products } from '../data/products.js';
 import { addToCart, calculateCartQuantity, cart, loadFromStorage } from '../data/cart.js';
-import { formatCurrency, } from './utils/money.js';
-import { renderCartItem } from './checkout/carts-summary.js';
+import { formatCurrency } from './utils/money.js';
+import { productGenerator } from '../data/products.js'
 
-let html = '';
+productGenerator(runMainPage, 'main')
+function runMainPage(products) {
+  let html = '';
 
-products.forEach(({ id, name, image, rating: { stars, count }, priceCents }, products) => {
-  html += `<div class="product-container">
+  products.forEach(({ id, name, image, rating: { stars, count }, priceCents }) => {
+    html += `<div class="product-container">
     <div class="product-image-container">
       <img class="product-image" src="${image}">
     </div>
@@ -49,37 +50,38 @@ products.forEach(({ id, name, image, rating: { stars, count }, priceCents }, pro
       Add to Cart
     </button>
   </div>`;
-});
-
-document.querySelector('.js-html-insert').innerHTML = html;
-
-document.querySelector('.cartSymbol').innerHTML = calculateCartQuantity();
-
-let timerID = 0;
-
-const butttonList = document.querySelectorAll('.add-to-cart-eventlistner');
-
-butttonList.forEach((selectedButton) => {
-  selectedButton.addEventListener('click', () => {
-    loadFromStorage()
-    const { productId, productName, productPrice } = selectedButton.dataset;
-    const quantitySelector = document.querySelector(`.js-quantity-selector-${productId}`);
-    const quantitySelected = Number(quantitySelector.value);
-    const addedSymbol = document.querySelector(`.addedselector${productId}`);
-
-    addToCart(productId, quantitySelected, productPrice);
-
-    document.querySelector('.cartSymbol').innerHTML = calculateCartQuantity();
-
-    addedSymbol.innerHTML = '<img src="images/icons/checkmark.png">  Added';
-
-    console.log(cart)
-
-    clearTimeout(productId);
-    productId = setTimeout(() => {
-      addedSymbol.innerHTML = '';
-    }, 2000);
-
-
   });
-});
+
+  document.querySelector('.js-html-insert').innerHTML = html;
+
+  document.querySelector('.cartSymbol').innerHTML = calculateCartQuantity();
+
+  let timerID = 0;
+
+  const butttonList = document.querySelectorAll('.add-to-cart-eventlistner');
+
+  butttonList.forEach((selectedButton) => {
+    selectedButton.addEventListener('click', () => {
+      loadFromStorage()
+      let { productId, productName, productPrice } = selectedButton.dataset;
+      const quantitySelector = document.querySelector(`.js-quantity-selector-${productId}`);
+      const quantitySelected = Number(quantitySelector.value);
+      const addedSymbol = document.querySelector(`.addedselector${productId}`);
+
+      addToCart(productId, quantitySelected, productPrice);
+
+      document.querySelector('.cartSymbol').innerHTML = calculateCartQuantity();
+
+      addedSymbol.innerHTML = '<img src="images/icons/checkmark.png">  Added';
+
+      console.log(cart)
+
+      clearTimeout(productId);
+      productId = setTimeout(() => {
+        addedSymbol.innerHTML = '';
+      }, 2000);
+
+
+    });
+  });
+}
