@@ -8,11 +8,17 @@ export function formatCurrency(priceCents) {
 export function ordersValue() {
     let value = 0;
     cart.forEach((array) => {
-        value += array.quantity * array.productPrice
+        value += array.quantity * array.productPrice;
+        console.log(`${array.quantity * array.productPrice}`);
     })
+
     return value;
 
+
 }
+console.log(cart);
+
+console.log(ordersValue())
 export function totalBeforeTax() {
     return ordersValue() + calculateShippingfee()
 }

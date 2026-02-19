@@ -1,4 +1,4 @@
-import { calculateCartQuantity, } from '../../data/cart.js';
+import { calculateCartQuantity, cart, } from '../../data/cart.js';
 import { formatCurrency, ordersValue, totalBeforeTax, estimatedTax, orderTotal, calculateShippingfee } from '../utils/money.js';
 
 export function paymentSummery() {
@@ -32,9 +32,11 @@ export function paymentSummery() {
       <div class="payment-summary-money">$${formatCurrency(orderTotal())} </div>
     </div>
 
-    <button class="place-order-button button-primary">
+    <button class="place-order-button button-primary js-place-order">
       Place your order
     </button>
   `;
+
   return cartSummaryHTML
 }
+

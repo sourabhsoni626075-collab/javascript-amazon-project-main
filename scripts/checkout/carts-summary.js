@@ -4,7 +4,6 @@ import { cart, removeFromcart, calculateCartQuantity, saveToLocalStorage, change
 import { paymentSummery } from './Payment-summary.js';
 import { formatCurrency, dynamicQuantityValue } from '../utils/money.js';
 import { deliveryOptions } from '../../data/deliveryOption.js';
-import { productGenerator } from '../../data/products.js';
 
 
 
